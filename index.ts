@@ -38,7 +38,7 @@ for await (const carac_name of possible_caracs) {
 // conn.execute(`delete from Imovel`)
 let i = 1;
 await Promise.all(json.ListingDataFeed.Listings.Listing.map(async Listing => {
-    const { rows } = await conn.execute(`select * from Imovel where listingId = :listingId and empresaId = :empresaId limit 1`, { listingId: Listing.ListingID, empresaId: empresa })
+    const { rows } = await conn.execute(`select * from Imovel where listingId = :listingId and empresaId = :empresaId limit 1`, { listingId: String(Listing.ListingID), empresaId: empresa })
     console.log(`${i}/${json.ListingDataFeed.Listings.Listing.length}`)
     i++;
     if (rows.length === 0) {
@@ -49,7 +49,7 @@ await Promise.all(json.ListingDataFeed.Listings.Listing.map(async Listing => {
                                                 ) VALUES 
                                                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
                                                 newImovelId , // id
-                                                Listing.ListingID, // listingId
+                                                String(Listing.ListingID), // listingId
                                                 new Date(), // createdAt
                                                 new Date(), // updatedAt
                                                 Listing.Title, // titulo
